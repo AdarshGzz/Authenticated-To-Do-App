@@ -15,7 +15,7 @@ body{
     width:800px;
     margin-top: 50px;
 }
-.button-container{
+.button-container, .info-container{
     display:flex;
     align-items: center;
 }
@@ -26,6 +26,61 @@ body{
     border-radius: 12px;
     background-color: transparent;
 }
+
+.edit{
+    border: 1.5px solid rgb(141,181,145);
+    color:rgb(141,181,145);
+    background-color:transparent;
+    text-transform: uppercase;
+}
+.edit:hover{
+    background-color:rgb(182, 223, 186);
+}
+
+.edit:active{
+    color: rgb(255, 255, 255);
+    background-color: rgba(141,181,145);
+
+}
+
+.delete{
+    border: 1.5px solid rgb(255,175,163);
+    color: rgb(255, 175, 163);
+    text-transform: uppercase;
+}
+.delete:hover{
+   background-color:rgb(255,201,193);
+}
+.delete:active{
+    color: rgb(255, 255, 255);
+    background-color: rgb(255, 175, 163);
+}
+
+.create{
+    border: 1.5px solid rgb(108, 115, 148);
+    background-color:rgb(108, 115, 148);
+    text-transform: uppercase;
+}
+.create:hover{
+    background-color:rgb(131,138,172);
+}
+.create:active{
+    background-color:rgb(108, 115, 148);
+    color:rgb(255, 255, 255);
+}
+
+.signout{
+    border: 1.5px solid rgb(255,175,163);
+    background-color: rgb(255, 175, 163);
+    text-transform: uppercase;
+}
+.signout:hover{
+    background-color: rgb(255, 175, 163);
+}
+.signout:active{
+    background-color: rgb(255, 175, 163);
+    color:rgb(255, 255, 255);
+}
 /* listheader */
 .list-header{
     width:100%;
@@ -33,6 +88,24 @@ body{
     justify-content:space-between;
     border-bottom: rgba(0,0,0,0.05) 1px solid;
 }
-.list-header.button-container{
 
+/* list Item */
+.list-item{
+    width:100%;
+    margin:10px 0;
+    border-radius: 10px;
+    box-shadow: rgba(0,0,0,0.08) 0 0 0 1px;
+    display: flex;
+    justify-content:space-between;
 }
+.tick{
+    padding:10px;
+}
+
+.tick path{
+    fill: none;
+    stroke: #000;
+    stroke-miterlimit: 10;
+    stroke-width: 32px
+}
+ 
