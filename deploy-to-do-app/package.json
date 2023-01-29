@@ -1,0 +1,14 @@
+{
+  "name": "deploy-to-do-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "build": "if-env TYPE=server &&(cd server npm install) || (cd build && npm install)",
+    "serve": "node ./server/server.js",
+    "client": "node ./client && npm start"
+  },
+  "dependencies": {
+    "if-env": "^1.0.4"
+  }
+}
