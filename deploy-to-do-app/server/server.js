@@ -31,6 +31,26 @@ app.post('/todos', async(req,res)=>{
         console.error(err)
     }
 })
+// edit a new to do
+app.put('/todos', async(req,res)=>{
+    try {
+        let editToDo = await pool()
+        editToDo = await editToDo.findOne(req.body).toArray()
+        // editToDo = await editToDo.updateOne(
+        //   { _id: req.body },
+        //   { $set: { 
+        //         "user_email": req.body.user_email,
+        //         "title": req.body.title,
+        //         "progress": req.body.progress,
+        //         "date":req.body.date   
+        //     }
+        //   }
+        // )
+        console.log(editToDo);
+    } catch (err) {
+        console.error(err)
+    }
+})
 
 app.listen(Port,()=>{
     console.log(`listening on http://localhost:${Port}`);

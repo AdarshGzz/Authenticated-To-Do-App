@@ -8,7 +8,7 @@ function Modal({mode, setShowModal,getData,task}) {
     user_email:editMode ? task.user_email:'abc@gmail.com' ,
     title: editMode ? task.title : null,
     progress:editMode ? task.progress : 50,
-    date: editMode ? "" : new Date()
+    date: editMode ? task.date : new Date()
   })
 
   const postData = async(e) =>{
@@ -32,7 +32,15 @@ function Modal({mode, setShowModal,getData,task}) {
   const editData = async(e) =>{
     e.preventDefault()
     try{
-      await fetch(`http://localhost:8000/todos/${task.id}`)
+      const response = await fetch(`http://localhost:8000/todos/${task._id}`,{
+        method: 'PUT',
+        headers:{'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      })
+      if(response.status===200){
+        setShowModal(false)
+        getData()
+      }
     }catch(err){
       console.error(err)
     }
