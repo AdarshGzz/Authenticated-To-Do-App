@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const pool = require('./db');
+const ObjectId = require('mongodb').ObjectId
 const { response } = require('express');
 app.use(express.json());
 
@@ -9,7 +10,6 @@ const Port = process.env.PORT ?? 8000
 app.use(cors())
 // get all todos
 app.get('/todos/:userEmail', async (req,res)=>{
-    console.log(req)
     const {userEmail} = req.params
     try{
         let todos = await pool()
@@ -32,21 +32,15 @@ app.post('/todos', async(req,res)=>{
     }
 })
 // edit a new to do
-app.put('/todos', async(req,res)=>{
+app.put('/todos/:_id', async(req,res)=>{
+    const {_id}  = req.params;
     try {
         let editToDo = await pool()
-        editToDo = await editToDo.findOne(req.body).toArray()
-        // editToDo = await editToDo.updateOne(
-        //   { _id: req.body },
-        //   { $set: { 
-        //         "user_email": req.body.user_email,
-        //         "title": req.body.title,
-        //         "progress": req.body.progress,
-        //         "date":req.body.date   
-        //     }
-        //   }
-        // )
-        console.log(editToDo);
+        let result = editToDo.updateMany(
+          { _id: ObjectId(`${_id}`)},
+          { $set: req.body}
+        )
+        res.json(result)
     } catch (err) {
         console.error(err)
     }
