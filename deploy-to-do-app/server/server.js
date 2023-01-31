@@ -2,8 +2,11 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const pool = require('./db');
+const pool2 = require('./db');
 const ObjectId = require('mongodb').ObjectId
 const { response } = require('express');
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 app.use(express.json());
 
 const Port = process.env.PORT ?? 8000
@@ -45,6 +48,57 @@ app.put('/todos/:_id', async(req,res)=>{
         console.error(err)
     }
 })
+
+// delete a todo
+app.delete('/todos/:id', async(req,res)=>{
+    try {
+        let deletetodo = await pool()
+        deletetodo = await deletetodo.deleteOne({
+          _id: ObjectId(req.params.id)
+        })
+        res.json(deletetodo)
+    } catch (err) {
+        console.error(err)
+    }
+})
+
+///signup 
+
+app.post('/signup', async(req, res)=>{
+    const{email, password} = req.body
+    const salt = bcrypt.genSaltSync(10)
+    const hashedPassword = bcrypt.hashSync(password, salt)
+    try{
+        const signup = await pool2()
+        signup  = await signup.insertOne({
+            email:`${email}`,
+            hashde_Password:`${hashedPassword}`
+        })
+
+        const token = jwt.sign({email} , 'secret' ,{expiresIn:'1hr'})
+
+        res.json({email,token})
+
+
+    }catch(err){
+        console.error(err)
+        if(err){
+            res.json({detail:err.detail})
+        }
+    }
+})
+
+
+/// login
+
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+  try {
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 
 app.listen(Port,()=>{
     console.log(`listening on http://localhost:${Port}`);

@@ -14,5 +14,15 @@ const pool = async(res,req) => {
     }  
 }
 
-module.exports = pool
+const pool2 = async (res, req) => {
+  try {
+    let result = await client.connect();
+    let db = result.db(database);
+    return db.collection("users");
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+module.exports = pool,pool2
 
