@@ -1,5 +1,9 @@
 import { useState } from "react"
+import {useCookies} from "react-cookie"
+
 const Auth = () => {
+  const[cookies, setCookies, removeCookies] = useCookies(null)
+
   const [isLogIn,setIsLogin] = useState(true)
 
   const[email,setEmail] = useState(null)
@@ -10,27 +14,32 @@ const Auth = () => {
    
   const [error,setError] = useState(null)
 
-  console.log(email,password,confirmPassword)
-
   const viewLogin = (status) =>{
     setError(null)
     setIsLogin(status)
   }
  
-  const handleSubmit = async(e , endpoint,) =>{
+  const handleSubmit = async(e , endpoint) =>{
     e.preventDefault()
     if(!isLogIn && password!==confirmPassword){
       setError('Make sure Passwards match!')
       return 
     }
-    const response = await fetch(`${process.env.REACT_APP_SERVERURL}/${endpoint}`,{
-      methode:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email , password})
+    // console.log(endpoint)
+    const response = await fetch(`http://localhost:5300/users/${endpoint}/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({email,password})
     })
-
     const data = await response.json()
-    console.log(data)
+    if(data.detail){
+      setError(data.detail);
+    }else{
+      setCookies('Email',data.email)
+      setCookies('AuthToken',data.token)
+
+      window.location.reload(true)
+    }
   }
 
   return (

@@ -1,20 +1,19 @@
-const {MongoClient} = require('mongodb')
+const {mongoClient, MongoClient} = require('mongodb')
 const dotenv = require('dotenv')
-dotenv.config() 
+dotenv.config()
 const url = process.env.DBURL
 const client = new MongoClient(`${url}`)
-const database = `${process.env.DBNAME }`
+const database = `${process.env.DBNAME}`
 
-const pool = async(res,req) => {
+const authPool = async(req,res)=>{
     try{
         let result = await client.connect()
         let db = result.db(database)
-        return(db.collection("todos"))
+        return(db.collection('users'))
+
     }catch(err){
         console.error(err)
-    }  
+    }
 }
 
-
-module.exports = pool
-
+module.exports = authPool
